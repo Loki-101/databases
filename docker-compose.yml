@@ -157,7 +157,3 @@
 #         # Adminer Bootstrap-Like Design # Bootstrap theme
 #         # Theme for Adminer        # Touch-friendly theme
 #         # Theme Switcher           # Switch themes
-
-# networks:
-#   databases_nw:
-#     driver: bridge
