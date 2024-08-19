@@ -2,6 +2,8 @@
 This repository provides Docker Compose configurations for setting up secure, modular databases using MariaDB, MongoDB, Redis, and PostgreSQL with SSL/TLS, managed by Adminer.
 Feel free to make a PR or open an issue if any information has gotten out of data or is not correct. As of yet, this has not been tested in production.
 
+If there is a database not listen here that is popular enough that you think others would benefit from it being added to the template, feel free to make an issue and ask for it to be added.
+
 ## Prerequisites
 
 - Docker and Docker Compose installed on your system
