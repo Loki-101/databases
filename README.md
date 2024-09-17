@@ -1,12 +1,12 @@
 # A template for modular, secure databases via a compose stack
-This repository provides Docker Compose configurations for setting up secure, modular databases using MariaDB, MongoDB, Redis, and PostgreSQL with SSL/TLS, managed by Adminer.
+This repository provides Docker Compose configurations for setting up secure, modular databases using MariaDB, MongoDB, Redis, and PostgreSQL with SSL/TLS, managed by WhoDB.
 Feel free to make a PR or open an issue if any information has gotten out of data or is not correct. As of yet, not all of these services been tested in production as defined by this compose file.
 
 If there is a database not listen here that is popular enough that you think others would benefit from it being added to the template, feel free to make an issue and ask for it to be added.
 
 ## Prerequisites
 
-- Docker and Docker Compose installed on your system
+- Docker or Podman and Docker or Podman Compose installed on your system
 - (optional - only if you are going to rely on the guide below for generating certificates) - A domain added to Cloudflare
 
 The `docker-compose.yml` includes services configured as follows:
@@ -14,23 +14,24 @@ The `docker-compose.yml` includes services configured as follows:
 - **MariaDB:** Runs on port 3306, with SSL certificates.
 - **MongoDB:** Runs on port 27017, prefers TLS but allows non-TLS.
 - **Redis:** TLS on port 6379 and non-TLS on 6380.
+- **KeyDB:** TLS on port 6379 and non-TLS on 6380.
 - **PostgreSQL:** Runs on port 5432, with enforced SSL.
-- **Adminer:** Web database management accessible on port 8530.
+- **WhoDB:** Web database management accessible on port 8500.
 
 ## Firewall Configuration
 
-Allow Adminer access to all database addresses (examples are not persistent across reboots, look up how to make iptables or nftables persistent on your specific operating system):
+Allow WhoDB access to all database addresses (examples are not persistent across reboots, look up how to make iptables or nftables persistent on your specific operating system):
 
 ### iptables
 
 ```bash
-iptables -A INPUT -d 172.18.0.1 -p tcp -m multiport --sports 8530 --dports 3306,27017,6379,5432 -j ACCEPT
+iptables -A INPUT -d 172.18.0.1 -p tcp -m multiport --sports 8500 --dports 3306,27017,6379,5432 -j ACCEPT
 ```
 
 ### nftables
 
 ```bash
-nft add rule ip filter input ip daddr 172.18.0.1 tcp sport 8530 tcp dport {3306, 27017, 6379, 5432} accept
+nft add rule ip filter input ip daddr 172.18.0.1 tcp sport 8500 tcp dport {3306, 27017, 6379, 5432} accept
 ```
 
 ## Generating a Cloudflare API Token
