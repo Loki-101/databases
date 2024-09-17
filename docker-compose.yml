@@ -44,6 +44,19 @@
 #     ports:
 #       - "172.18.0.1:6379:6379"
 
+#   keydb: # KeyDB is a fork of Redis with additional features and performance improvements such as multi-threading, active-active replication, and higher throughput, making it suitable for high-concurrency environments.
+#     # The "latest" tag always pulls the latest LTS version, no need to manually check.
+#     image: eqalpha/keydb:latest
+#     restart: always
+#     command: keydb-server /etc/keydb/keydb.conf --requirepass "${KEYDB_PASSWORD}" --server-threads 4 --tls-port 6379 --port 6380 --tls-cert-file /etc/letsencrypt/live/"${KEYDB_DOMAIN}"/fullchain.pem --tls-key-file /etc/letsencrypt/live/"${KEYDB_DOMAIN}"/privkey.pem --tls-ca-cert-file /etc/ssl/certs/ca-certificates.crt
+#     environment:
+#       KEYDB_PASSWORD: "${KEYDB_PASSWORD}"
+#     volumes:
+#       - /srv/databases/keydb:/data
+#       - /etc/letsencrypt/live/"${KEYDB_DOMAIN}":/etc/letsencrypt/live/"${KEYDB_DOMAIN}":ro
+#     ports:
+#        - "172.18.0.1:6379:6379"
+
 #   postgres:
 #     # Check latest LTS version at https://www.postgresql.org/support/versioning/ and verify tag exists at https://hub.docker.com/_/postgres/
 #     # Port is 5432 by default, if it remains un-mapped it can be accessed from another container on the network at the default port.
