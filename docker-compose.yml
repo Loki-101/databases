@@ -1,172 +1,118 @@
-# services:
-#   mariadb:
-#     # Check latest LTS version at https://mariadb.org/mariadb/all-releases/ and verify tag exists at https://hub.docker.com/_/mariadb
-#     # Port is 3306 by default, if it remains un-mapped it can be accessed from another container on the network at the default port.
-#     image: mariadb:11.4.2
-#     restart: always
-#     command: --ssl-cert=/etc/letsencrypt/live/"${MARIADB_DOMAIN}"/fullchain.pem --ssl-key=/etc/letsencrypt/live/"${MARIADB_DOMAIN}"/privkey.pem
-#     environment:
-#       MYSQL_ROOT_PASSWORD: "${MARIADB_ROOT_PASSWORD}"
-#       MYSQL_DATABASE: "${MARIADB_DATABASE}"
-#       MYSQL_USER: "${MARIADB_USER}"
-#       MYSQL_PASSWORD: "${MARIADB_PASSWORD}"
-#     volumes:
-#       - /srv/databases/mariadb:/var/lib/mysql
-#       - /etc/letsencrypt/live/"${MARIADB_DOMAIN}":/etc/letsencrypt/live/"${MARIADB_DOMAIN}":ro
-#     ports:
-#       - "172.18.0.1:3306:3306"
+#services:
+#  mariadb:
+#    # Check latest LTS version at https://mariadb.org/mariadb/all-releases/ and verify tag exists at https://hub.docker.com/_/mariadb
+#    # Port is 3306 by default, if it remains un-mapped it can be accessed from another container on the network at the default port.
+#    image: mariadb:11.4.2
+#    restart: always
+#    command: --ssl-cert=/etc/letsencrypt/live/"${MARIADB_DOMAIN}"/fullchain.pem --ssl-key=/etc/letsencrypt/live/"${MARIADB_DOMAIN}"/privkey.pem
+#    environment:
+#      MYSQL_ROOT_PASSWORD: "${MARIADB_ROOT_PASSWORD}"
+#      MYSQL_DATABASE: "${MARIADB_DATABASE}"
+#      MYSQL_USER: "${MARIADB_USER}"
+#      MYSQL_PASSWORD: "${MARIADB_PASSWORD}"
+#    volumes:
+#      - /srv/databases/mariadb:/var/lib/mysql
+#      - /etc/letsencrypt/live/"${MARIADB_DOMAIN}":/etc/letsencrypt/live/"${MARIADB_DOMAIN}":ro
+#    ports:
+#      - "172.18.0.1:3306:3306"
 
-#   mongodb:
-#     # Check latest LTS version at https://www.mongodb.com/docs/manual/release-notes/ and verify tag exists at https://hub.docker.com/_/mongo
-#     # Port is 27017 by default, if it remains un-mapped it can be accessed from another container on the network at the default port.
-#     image: mongo:7.0
-#     restart: always
-#     command: --tlsMode preferTLS --tlsCertificateKeyFile /etc/letsencrypt/live/"${MONGODB_DOMAIN}"/mongodb.pem
-#     environment:
-#       MONGO_INITDB_ROOT_USERNAME: "${MONGO_INITDB_ROOT_USERNAME}"
-#       MONGO_INITDB_ROOT_PASSWORD: "${MONGO_INITDB_ROOT_PASSWORD}"
-#     volumes:
-#       - /srv/databases/mongodb:/data/db
-#       - /etc/letsencrypt/live/"${MONGODB_DOMAIN}":/etc/letsencrypt/live/"${MONGODB_DOMAIN}":ro
-#     ports:
-#       - "172.18.0.1:27017:27017"
+#  mongodb:
+#    # Check latest LTS version at https://www.mongodb.com/docs/manual/release-notes/ and verify tag exists at https://hub.docker.com/_/mongo
+#    # Port is 27017 by default, if it remains un-mapped it can be accessed from another container on the network at the default port.
+#    image: mongo:7.0
+#    restart: always
+#    command: --tlsMode preferTLS --tlsCertificateKeyFile /etc/letsencrypt/live/"${MONGODB_DOMAIN}"/mongodb.pem
+#    environment:
+#      MONGO_INITDB_ROOT_USERNAME: "${MONGO_INITDB_ROOT_USERNAME}"
+#      MONGO_INITDB_ROOT_PASSWORD: "${MONGO_INITDB_ROOT_PASSWORD}"
+#    volumes:
+#      - /srv/databases/mongodb:/data/db
+#      - /etc/letsencrypt/live/"${MONGODB_DOMAIN}":/etc/letsencrypt/live/"${MONGODB_DOMAIN}":ro
+#    ports:
+#      - "172.18.0.1:27017:27017"
 
-#   redis:
-#     # Check latest LTS version at https://redis.io/downloads/#stack and verify tag exists at https://hub.docker.com/_/redis
-#     # Port is 6379 by default, if it remains un-mapped it can be accessed from another container on the network at the default port.
-#     # Port 6380 is used for unencrypted connections in the case of a poorly made client application that can't handle TLS.
-#     image: redis:7.2
-#     restart: always
-#     command: redis-server --requirepass "${REDIS_PASSWORD}" --tls-port 6379 --port 6380 --tls-cert-file /etc/letsencrypt/live/"${REDIS_DOMAIN}"/fullchain.pem --tls-key-file /etc/letsencrypt/live/"${REDIS_DOMAIN}"/privkey.pem --tls-ca-cert-file /etc/ssl/certs/ca-certificates.crt
-#     volumes:
-#       - /srv/databases/redis:/data
-#       - /etc/letsencrypt/live/"${REDIS_DOMAIN}":/etc/letsencrypt/live/"${REDIS_DOMAIN}":ro
-#     ports:
+#  redis:
+#    # Check latest LTS version at https://redis.io/downloads/#stack and verify tag exists at https://hub.docker.com/_/redis
+#    # Port is 6379 by default, if it remains un-mapped it can be accessed from another container on the network at the default port.
+#    # Port 6380 is used for unencrypted connections in the case of a poorly made client application that can't handle TLS.
+#    image: redis:7.2
+#    restart: always
+#    command: redis-server --requirepass "${REDIS_PASSWORD}" --tls-port 6379 --port 6380 --tls-cert-file /etc/letsencrypt/live/"${REDIS_DOMAIN}"/fullchain.pem --tls-key-file /etc/letsencrypt/live/"${REDIS_DOMAIN}"/privkey.pem --tls-ca-cert-file /etc/ssl/certs/ca-certificates.crt
+#    volumes:
+#      - /srv/databases/redis:/data
+#      - /etc/letsencrypt/live/"${REDIS_DOMAIN}":/etc/letsencrypt/live/"${REDIS_DOMAIN}":ro
+#    ports:
+#      - "172.18.0.1:6379:6379"
+
+#  keydb: # KeyDB is a fork of Redis with additional features and performance improvements such as multi-threading, active-active replication, and higher throughput, making it suitable for high-concurrency environments.
+#    # The "latest" tag always pulls the latest LTS version, no need to manually check.
+#    image: eqalpha/keydb:latest
+#    restart: always
+#    command: keydb-server /etc/keydb/keydb.conf --requirepass "${KEYDB_PASSWORD}" --server-threads 4 --tls-port 6379 --port 6380 --tls-cert-file /etc/letsencrypt/live/"${KEYDB_DOMAIN}"/fullchain.pem --tls-key-file /etc/letsencrypt/live/"${KEYDB_DOMAIN}"/privkey.pem --tls-ca-cert-file /etc/ssl/certs/ca-certificates.crt
+#    environment:
+#      KEYDB_PASSWORD: "${KEYDB_PASSWORD}"
+#    volumes:
+#      - /srv/databases/keydb:/data
+#      - /etc/letsencrypt/live/"${KEYDB_DOMAIN}":/etc/letsencrypt/live/"${KEYDB_DOMAIN}":ro
+#    ports:
 #       - "172.18.0.1:6379:6379"
 
-#   keydb: # KeyDB is a fork of Redis with additional features and performance improvements such as multi-threading, active-active replication, and higher throughput, making it suitable for high-concurrency environments.
-#     # The "latest" tag always pulls the latest LTS version, no need to manually check.
-#     image: eqalpha/keydb:latest
-#     restart: always
-#     command: keydb-server /etc/keydb/keydb.conf --requirepass "${KEYDB_PASSWORD}" --server-threads 4 --tls-port 6379 --port 6380 --tls-cert-file /etc/letsencrypt/live/"${KEYDB_DOMAIN}"/fullchain.pem --tls-key-file /etc/letsencrypt/live/"${KEYDB_DOMAIN}"/privkey.pem --tls-ca-cert-file /etc/ssl/certs/ca-certificates.crt
-#     environment:
-#       KEYDB_PASSWORD: "${KEYDB_PASSWORD}"
-#     volumes:
-#       - /srv/databases/keydb:/data
-#       - /etc/letsencrypt/live/"${KEYDB_DOMAIN}":/etc/letsencrypt/live/"${KEYDB_DOMAIN}":ro
-#     ports:
-#        - "172.18.0.1:6379:6379"
-
-#   postgres:
-#     # Check latest LTS version at https://www.postgresql.org/support/versioning/ and verify tag exists at https://hub.docker.com/_/postgres/
-#     # Port is 5432 by default, if it remains un-mapped it can be accessed from another container on the network at the default port.
-#     image: postgres:16.3
-#     restart: always
-#     environment:
-#       POSTGRES_USER: "${POSTGRES_USER}"
-#       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
-#       POSTGRES_DB: "${POSTGRES_DB}"
-#       PGDATA: /var/lib/postgresql/data/pgdata
-#       POSTGRES_HOST_AUTH_METHOD: scram-sha-256
-#     command: >
-#       -c ssl=on
-#       -c ssl_cert_file=/etc/letsencrypt/live/"${POSTGRES_DOMAIN}"/fullchain.pem
-#       -c ssl_key_file=/etc/letsencrypt/live/"${POSTGRES_DOMAIN}"/privkey.pem
-#       -c hostssl=all
-#     volumes:
-#       - /srv/databases/postgresql:/var/lib/postgresql/data
-#       - /etc/letsencrypt/live/"${POSTGRES_DOMAIN}":/etc/letsencrypt/live/"${POSTGRES_DOMAIN}":ro
-#     shm_size: 256mb
-#     ports:
-#       - "172.18.0.1:5432:5432"
-
-#   adminer:
-#     image: adminer
-#     restart: always
-#     ports:
-#       - 8530:8080
-#     environment:
-#       ADMINER_PLUGINS: |
-#         # Uncomment the plugins you want to enable
-#         # plugin                   # Required for plugins
-#         # database-hide            # Hide databases
-#         # designs                  # Switch designs
-#         # dump-alter               # Sync databases
-#         # dump-bz2                 # Dump to Bzip2
-#         # dump-date                # Date in filename
-#         # dump-json                # Dump to JSON
-#         # dump-xml                 # Dump to XML
-#         # dump-zip                 # Dump to ZIP
-#         # edit-calendar            # Date picker
-#         # edit-foreign             # Foreign key select
-#         # edit-textarea            # Textarea for char
-#         # enum-option              # Enum as select
-#         # enum-types               # Enum for PostgreSQL
-#         # file-upload              # File upload field
-#         # foreign-system           # Link system tables
-#         # frames                   # Use in frames
-#         # json-column              # JSON as table
-#         # login-otp                # OTP login
-#         # login-servers            # List of servers
-#         # login-password-less      # Passwordless login
-#         # login-ssl                # SSL login
-#         # login-table              # Login from table
-#         # master-slave             # Master-slave setup
-#         # pretty-json-column       # Pretty print JSON
-#         # slugify                  # Slugify values
-#         # sql-log                  # Log queries
-#         # struct-comments          # Show SQL comments
-#         # tables-filter            # Filter tables
-#         # tinymce                  # HTML editor
-#         # translation              # Translate comments
-#         # version-noverify         # Disable version check
-#         # wymeditor                # WYMeditor
-#         # allowed-prefixes         # Table prefixes
-#         # checkbox-select          # Multi-checkbox select
-#         # colorfields              # Color fields
-#         # convention-foreign-keys  # Foreign key links
-#         # AdminerCopy              # Copy support
-#         # Camera Upload            # Upload from camera
-#         # cellformula              # Cell formulas
-#         # CustomizeThemeBasedOnServer # Theme by server
-#         # Disable tables           # Disable tables
-#         # DisplayForeignKeyName    # Display FK names
-#         # DumpMarkdownDict         # Markdown dump
-#         # dump-markdown            # Markdown format
-#         # dump-xml-dataset         # XML dataset
-#         # FasterTablesFilter       # Fast table filter
-#         # favorites tables         # Favorite tables
-#         # FillLoginForm            # Auto-fill login
-#         # fk-disable               # Disable FK checks
-#         # floatThead               # Floating header
-#         # folder-import            # Import folders
-#         # ForeignKeys              # Foreign key support
-#         # hidePgSchemas            # Hide pg_ schemas
-#         # HideTables               # Hide tables
-#         # HideableColumns          # Hide columns
-#         # input-uuid-generator     # UUID generator
-#         # ispconfig                # ISPConfig login
-#         # JsonVarDumper            # Dump JSON vars
-#         # login-servers-enhanced   # Enhanced servers
-#         # nette-user-login         # Nette user login
-#         # one-click-login          # One-click login
-#         # PHP Export               # Export to PHP
-#         # PHP Serialized Data      # Serialize data
-#         # readable-dates           # Readable dates
-#         # resize                   # Resize columns
-#         # restore-menu-scroll      # Restore scroll
-#         # SchemaDefaultToPublic    # Default schema
-#         # SearchAutocomplete       # Search autocomplete
-#         # SQLite3 without password # SQLite3 no pass
-#         # StickyColumns            # Sticky columns
-#         # suggest-tablefields      # Suggest fields
-#         # table-filter             # Filter tables
-#         # table-header-scroll      # Scroll header
-#         # tablesCollapse           # Collapse tables
-#         # tables_fuzzy_search      # Fuzzy search
-#         # tables-history           # Table history
-#         # tree-view                # Tree view
-#         # login-servers, json-preview, simple-menu, collations # Misc plugins
-#         # Adminer Bootstrap-Like Design # Bootstrap theme
-#         # Theme for Adminer        # Touch-friendly theme
-#         # Theme Switcher           # Switch themes
+#  postgres:
+#    # Check latest LTS version at https://www.postgresql.org/support/versioning/ and verify tag exists at https://hub.docker.com/_/postgres/
+#    # Port is 5432 by default, if it remains un-mapped it can be accessed from another container on the network at the default port.
+#    image: postgres:16.3
+#    restart: always
+#    environment:
+#      POSTGRES_USER: "${POSTGRES_USER}"
+#      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+#      POSTGRES_DB: "${POSTGRES_DB}"
+#      PGDATA: /var/lib/postgresql/data/pgdata
+#      POSTGRES_HOST_AUTH_METHOD: scram-sha-256
+#    command: >
+#      -c ssl=on
+#      -c ssl_cert_file=/etc/letsencrypt/live/"${POSTGRES_DOMAIN}"/fullchain.pem
+#      -c ssl_key_file=/etc/letsencrypt/live/"${POSTGRES_DOMAIN}"/privkey.pem
+#      -c hostssl=all
+#    volumes:
+#      - /srv/databases/postgresql:/var/lib/postgresql/data
+#      - /etc/letsencrypt/live/"${POSTGRES_DOMAIN}":/etc/letsencrypt/live/"${POSTGRES_DOMAIN}":ro
+#    shm_size: 256mb
+#    ports:
+#      - "172.18.0.1:5432:5432"
+#  whodb:
+#   image: clidey/whodb
+#   restart: always
+#   environment:
+#     - OLLAMA_HOST=ollama
+#     - OLLAMA_PORT=11434
+#   ports:
+#     - "8080:8080"
+#   depends_on:
+#     - ollama
+#   networks:
+#     - whodb-network
+#  ollama:
+#   image: ollama/ollama:latest
+#   restart: always
+#   command: ollama run llama3.1 # Find more models at https://ollama.com/library
+#   volumes:
+#     - ollama:/root/.ollama
+#   ports:
+#     - "11434:11434"
+#   networks:
+#     - whodb-network
+#   # Uncomment the following section if you're using an Nvidia GPU with Ollama
+#   # deploy:
+#   #   resources:
+#   #     reservations:
+#   #       devices:
+#   #         - driver: nvidia
+#   #           count: all
+#   #           capabilities: [gpu]
+#   # environment:
+#   #   NVIDIA_VISIBLE_DEVICES: "all"
+#   #   NVIDIA_DRIVER_CAPABILITIES: "compute,utility"
+#
+#networks:
+#  whodb-network:
+#    driver: bridge
