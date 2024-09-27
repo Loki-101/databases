@@ -83,8 +83,8 @@
 #   image: clidey/whodb
 #   restart: always
 #   environment:
-#     - OLLAMA_HOST=ollama
-#     - OLLAMA_PORT=11434
+#     - WHODB_OLLAMA_HOST=ollama
+#     - WHODB_OLLAMA_PORT=11434
 #   ports:
 #     - "8500:8080"
 #   depends_on:
@@ -94,7 +94,7 @@
 #  ollama:
 #   image: ollama/ollama:latest
 #   restart: always
-#   command: ollama run llama3.1 # Find more models at https://ollama.com/library
+#   # Run "ollama run llama3.1" by execing the container and then type /bye for it to see the model # Find more models at https://ollama.com/library
 #   volumes:
 #     - ollama:/root/.ollama
 #   ports:
