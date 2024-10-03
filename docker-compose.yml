@@ -79,6 +79,7 @@
 #    shm_size: 256mb
 #    ports:
 #      - "172.18.0.1:5432:5432"
+# Author's Note: Personally, I prefer using DBeaver. You can use whatever database clients you want. I only included whodb and ollama in here for anyone who really wants everything all bundled together, even the client part.
 #  whodb:
 #   image: clidey/whodb
 #   restart: always
